@@ -19,19 +19,16 @@ function ngCircle(){
       <div class="half">
         <div class="half-progress is-left" style="
           background: {{vm.style('progress').color}};
-          transform: rotate({{vm.getLeftRange()}}deg);
-          border-radius: {{vm.style('progress').radius.isLeft}}">
+					border-radius: {{vm.style('progress').radius.isLeft}};
+          {{vm.setSupportClient('transform')}}: rotate({{vm.getLeftRange()}}deg)">
         </div>
       </div>
 
       <div class="half">
         <div class="half-progress is-right" style="
           background: {{vm.style('progress').color}};
-          -moz-transform: rotate({{vm.getRightRange()}}deg);
-          -ms-transform: rotate({{vm.getRightRange()}}deg);
-          -webkit-transform: rotate({{vm.getRightRange()}}deg);
-          transform: rotate({{vm.getRightRange()}}deg);
-          border-radius: {{vm.style('progress').radius.isRight}}">
+					border-radius: {{vm.style('progress').radius.isRight}};
+          {{vm.setSupportClient('transform')}}: rotate({{vm.getRightRange()}}deg)">
         </div>
       </div>
 
@@ -39,14 +36,8 @@ function ngCircle(){
         width: {{vm.style('dot').width}};
         height: {{vm.style('dot').height}};
         background: {{vm.style('dot').color}};
-        -moz-transform: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);
-        -ms-transform: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);
-        -webkit-transform: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);
-        transform: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);
-        -moz-transform-origin: 0 {{vm.style('dot').origin}};
-        -ms-transform-origin: 0 {{vm.style('dot').origin}};
-        -webkit-transform-origin: 0 {{vm.style('dot').origin}};
-        transform-origin: 0 {{vm.style('dot').origin}};">
+        {{vm.setSupportClient('transform')}}: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);
+        {{vm.setSupportClient('transform-origin')}}: 0 {{vm.style('dot').origin}};">
       </div>
       <div ng-if="!vm.pie" class="dot" style="
         width: {{vm.style('dot').width}};
@@ -80,6 +71,7 @@ function ngCircle(){
     vm.getLeftRange = getLeftRange;
     vm.getRightRange = getRightRange;
     vm.getDotRange = getDotRange;
+		vm.setSupportClient = setSupportClient;
 
     vm.styles = {
     	circle: {
@@ -145,6 +137,21 @@ function ngCircle(){
       setRightRange(range);
       setDotRange(range);
     }
+
+		function setSupportClient(prop) {
+			let style = document.body.style;
+			if ('WebkitTransform' in style) {
+				return '-webkit-' + prop;
+			} else if ('MozTransform' in style) {
+				return '-moz-' + prop;
+			} else if ('MsTransform' in style) {
+				return '-ms-' + prop;
+			} else if ('OTransform' in style) {
+				return '-o-' + prop;
+			} else if ('transform' in style) {
+				return prop;
+			}
+		}
 
   }
 }

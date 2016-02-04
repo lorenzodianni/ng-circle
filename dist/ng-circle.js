@@ -14,7 +14,7 @@ function ngCircle() {
     bindToController: true,
     replace: true,
     link: CircleLink,
-    template: '\n    <div class="ng-circle" ng-style="vm.style(\'circle\')">\n      <div class="half">\n        <div class="half-progress is-left" style="\n          background: {{vm.style(\'progress\').color}};\n          transform: rotate({{vm.getLeftRange()}}deg);\n          border-radius: {{vm.style(\'progress\').radius.isLeft}}">\n        </div>\n      </div>\n\n      <div class="half">\n        <div class="half-progress is-right" style="\n          background: {{vm.style(\'progress\').color}};\n          -moz-transform: rotate({{vm.getRightRange()}}deg);\n          -ms-transform: rotate({{vm.getRightRange()}}deg);\n          -webkit-transform: rotate({{vm.getRightRange()}}deg);\n          transform: rotate({{vm.getRightRange()}}deg);\n          border-radius: {{vm.style(\'progress\').radius.isRight}}">\n        </div>\n      </div>\n\n      <div ng-if="!vm.pie" class="dot" style="\n        width: {{vm.style(\'dot\').width}};\n        height: {{vm.style(\'dot\').height}};\n        background: {{vm.style(\'dot\').color}};\n        -moz-transform: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);\n        -ms-transform: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);\n        -webkit-transform: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);\n        transform: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);\n        -moz-transform-origin: 0 {{vm.style(\'dot\').origin}};\n        -ms-transform-origin: 0 {{vm.style(\'dot\').origin}};\n        -webkit-transform-origin: 0 {{vm.style(\'dot\').origin}};\n        transform-origin: 0 {{vm.style(\'dot\').origin}};">\n      </div>\n      <div ng-if="!vm.pie" class="dot" style="\n        width: {{vm.style(\'dot\').width}};\n        height: {{vm.style(\'dot\').height}};\n        background: {{vm.style(\'dot\').color}};">\n      </div>\n      <div ng-if="!vm.pie" class="mask" ng-style="vm.style(\'mask\')"></div>\n    </div>\n    '
+    template: '\n    <div class="ng-circle" ng-style="vm.style(\'circle\')">\n      <div class="half">\n        <div class="half-progress is-left" style="\n          background: {{vm.style(\'progress\').color}};\n\t\t\t\t\tborder-radius: {{vm.style(\'progress\').radius.isLeft}};\n          {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getLeftRange()}}deg)">\n        </div>\n      </div>\n\n      <div class="half">\n        <div class="half-progress is-right" style="\n          background: {{vm.style(\'progress\').color}};\n\t\t\t\t\tborder-radius: {{vm.style(\'progress\').radius.isRight}};\n          {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getRightRange()}}deg)">\n        </div>\n      </div>\n\n      <div ng-if="!vm.pie" class="dot" style="\n        width: {{vm.style(\'dot\').width}};\n        height: {{vm.style(\'dot\').height}};\n        background: {{vm.style(\'dot\').color}};\n        {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);\n        {{vm.setSupportClient(\'transform-origin\')}}: 0 {{vm.style(\'dot\').origin}};">\n      </div>\n      <div ng-if="!vm.pie" class="dot" style="\n        width: {{vm.style(\'dot\').width}};\n        height: {{vm.style(\'dot\').height}};\n        background: {{vm.style(\'dot\').color}};">\n      </div>\n      <div ng-if="!vm.pie" class="mask" ng-style="vm.style(\'mask\')"></div>\n    </div>\n    '
   };
 
   function CircleLink(scope, elem, attr, ctrl) {
@@ -39,6 +39,7 @@ function ngCircle() {
     vm.getLeftRange = getLeftRange;
     vm.getRightRange = getRightRange;
     vm.getDotRange = getDotRange;
+    vm.setSupportClient = setSupportClient;
 
     vm.styles = {
       circle: {
@@ -103,6 +104,21 @@ function ngCircle() {
       setLeftRange(range);
       setRightRange(range);
       setDotRange(range);
+    }
+
+    function setSupportClient(prop) {
+      var style = document.body.style;
+      if ('WebkitTransform' in style) {
+        return '-webkit-' + prop;
+      } else if ('MozTransform' in style) {
+        return '-moz-' + prop;
+      } else if ('MsTransform' in style) {
+        return '-ms-' + prop;
+      } else if ('OTransform' in style) {
+        return '-o-' + prop;
+      } else if ('transform' in style) {
+        return prop;
+      }
     }
   }
 }
