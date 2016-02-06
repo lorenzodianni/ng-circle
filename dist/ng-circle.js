@@ -5,6 +5,7 @@ function ngCircle() {
     scope: {
       size: '@ngCircleSize',
       range: '@ngCircleRange',
+      rangeSize: '@?ngCircleRangeSize',
       pie: '=?ngCirclePie',
       color: '@?ngCircleColor',
       colorMask: '@?ngCircleColorMask'
@@ -14,7 +15,7 @@ function ngCircle() {
     bindToController: true,
     replace: true,
     link: CircleLink,
-    template: '\n    <div class="ng-circle" ng-style="vm.style(\'circle\')">\n      <div class="half">\n        <div class="half-progress is-left" style="\n          background: {{vm.style(\'progress\').color}};\n\t\t\t\t\tborder-radius: {{vm.style(\'progress\').radius.isLeft}};\n          {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getLeftRange()}}deg)">\n        </div>\n      </div>\n\n      <div class="half">\n        <div class="half-progress is-right" style="\n          background: {{vm.style(\'progress\').color}};\n\t\t\t\t\tborder-radius: {{vm.style(\'progress\').radius.isRight}};\n          {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getRightRange()}}deg)">\n        </div>\n      </div>\n\n      <div ng-if="!vm.pie" class="dot" style="\n        width: {{vm.style(\'dot\').width}};\n        height: {{vm.style(\'dot\').height}};\n        background: {{vm.style(\'dot\').color}};\n        {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);\n        {{vm.setSupportClient(\'transform-origin\')}}: 0 {{vm.style(\'dot\').origin}};">\n      </div>\n      <div ng-if="!vm.pie" class="dot" style="\n        width: {{vm.style(\'dot\').width}};\n        height: {{vm.style(\'dot\').height}};\n        background: {{vm.style(\'dot\').color}};">\n      </div>\n      <div ng-if="!vm.pie" class="mask" ng-style="vm.style(\'mask\')"></div>\n    </div>\n    '
+    template: '\n    <div class="ng-circle" ng-style="vm.style(\'circle\')">\n      <div class="ng-circle__half">\n        <div class="ng-circle__half-progress is-left" style="\n          background: {{vm.style(\'progress\').color}};\n\t\t\t\t\tborder-radius: {{vm.style(\'progress\').radius.isLeft}};\n          {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getLeftRange()}}deg)">\n        </div>\n      </div>\n\n      <div class="ng-circle__half">\n        <div class="ng-circle__half-progress is-right" style="\n          background: {{vm.style(\'progress\').color}};\n\t\t\t\t\tborder-radius: {{vm.style(\'progress\').radius.isRight}};\n          {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getRightRange()}}deg)">\n        </div>\n      </div>\n\n      <div ng-if="!vm.pie" class="ng-circle__dot" style="\n        width: {{vm.style(\'dot\').width}};\n        height: {{vm.style(\'dot\').height}};\n        background: {{vm.style(\'dot\').color}};\n        {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);\n        {{vm.setSupportClient(\'transform-origin\')}}: 0 {{vm.style(\'dot\').origin}};">\n      </div>\n      <div ng-if="!vm.pie" class="ng-circle__dot" style="\n        width: {{vm.style(\'dot\').width}};\n        height: {{vm.style(\'dot\').height}};\n        background: {{vm.style(\'dot\').color}};">\n      </div>\n      <div ng-if="!vm.pie" class="ng-circle__mask" ng-style="vm.style(\'mask\')"></div>\n    </div>\n    '
   };
 
   function CircleLink(scope, elem, attr, ctrl) {
@@ -33,6 +34,7 @@ function ngCircle() {
 
     vm.size = parseInt(vm.size);
     vm.range = parseInt(vm.range);
+    vm.rangeSize = parseInt(vm.rangeSize);
 
     vm.style = style;
     vm.formatRange = formatRange;
@@ -47,13 +49,13 @@ function ngCircle() {
         height: vm.size + 'px'
       },
       mask: {
-        width: vm.size - vm.size / 10 * 2 + 'px',
-        height: vm.size - vm.size / 10 * 2 + 'px',
+        width: vm.size - (vm.rangeSize * 2 || vm.size / 10 * 2) + 'px',
+        height: vm.size - (vm.rangeSize * 2 || vm.size / 10 * 2) + 'px',
         background: vm.colorMask
       },
       dot: {
-        width: vm.size / 10 + 'px',
-        height: vm.size / 10 + 'px',
+        width: (vm.rangeSize || vm.size / 10) + 'px',
+        height: (vm.rangeSize || vm.size / 10) + 'px',
         color: vm.color,
         origin: vm.size / 2 + 'px'
       },

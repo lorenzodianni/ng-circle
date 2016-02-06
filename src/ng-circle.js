@@ -4,7 +4,8 @@ function ngCircle(){
 	return {
   	scope: {
     	size: '@ngCircleSize',
-    	range: '@ngCircleRange',
+			range: '@ngCircleRange',
+			rangeSize: '@?ngCircleRangeSize',
     	pie: '=?ngCirclePie',
       color: '@?ngCircleColor',
       colorMask: '@?ngCircleColorMask'
@@ -16,35 +17,35 @@ function ngCircle(){
     link: CircleLink,
     template: `
     <div class="ng-circle" ng-style="vm.style('circle')">
-      <div class="half">
-        <div class="half-progress is-left" style="
+      <div class="ng-circle__half">
+        <div class="ng-circle__half-progress is-left" style="
           background: {{vm.style('progress').color}};
 					border-radius: {{vm.style('progress').radius.isLeft}};
           {{vm.setSupportClient('transform')}}: rotate({{vm.getLeftRange()}}deg)">
         </div>
       </div>
 
-      <div class="half">
-        <div class="half-progress is-right" style="
+      <div class="ng-circle__half">
+        <div class="ng-circle__half-progress is-right" style="
           background: {{vm.style('progress').color}};
 					border-radius: {{vm.style('progress').radius.isRight}};
           {{vm.setSupportClient('transform')}}: rotate({{vm.getRightRange()}}deg)">
         </div>
       </div>
 
-      <div ng-if="!vm.pie" class="dot" style="
+      <div ng-if="!vm.pie" class="ng-circle__dot" style="
         width: {{vm.style('dot').width}};
         height: {{vm.style('dot').height}};
         background: {{vm.style('dot').color}};
         {{vm.setSupportClient('transform')}}: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);
         {{vm.setSupportClient('transform-origin')}}: 0 {{vm.style('dot').origin}};">
       </div>
-      <div ng-if="!vm.pie" class="dot" style="
+      <div ng-if="!vm.pie" class="ng-circle__dot" style="
         width: {{vm.style('dot').width}};
         height: {{vm.style('dot').height}};
         background: {{vm.style('dot').color}};">
       </div>
-      <div ng-if="!vm.pie" class="mask" ng-style="vm.style('mask')"></div>
+      <div ng-if="!vm.pie" class="ng-circle__mask" ng-style="vm.style('mask')"></div>
     </div>
     `
   };
@@ -65,6 +66,7 @@ function ngCircle(){
 
     vm.size = parseInt(vm.size);
     vm.range = parseInt(vm.range);
+		vm.rangeSize = parseInt(vm.rangeSize);
 
     vm.style = style;
     vm.formatRange = formatRange;
@@ -79,13 +81,13 @@ function ngCircle(){
         height: vm.size + 'px'
       },
       mask: {
-        width: vm.size - (vm.size/10 * 2) + 'px',
-        height: vm.size - (vm.size/10 * 2) + 'px',
+        width: vm.size - (vm.rangeSize * 2 || vm.size/10 * 2) + 'px',
+        height: vm.size - (vm.rangeSize * 2 || vm.size/10 * 2) + 'px',
         background: vm.colorMask
       },
       dot: {
-        width: vm.size/10 + 'px',
-        height: vm.size/10 + 'px',
+        width: (vm.rangeSize || vm.size/10) + 'px',
+        height: (vm.rangeSize || vm.size/10) + 'px',
         color: vm.color,
         origin: vm.size/2 + 'px'
       },
