@@ -27,7 +27,7 @@ html, body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, 250%);
+  transform: translate(-50%, 335%);
   color: #03A9F4;
   font-size: 32px;
   font-weight: 300;
@@ -58,7 +58,7 @@ input[type=range]::-webkit-slider-runnable-track {
   height: 2px;
   cursor: pointer;
   border: none;
-  background: #e6e6e6;
+  background: #e0e0e0;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -96,7 +96,7 @@ input[type=range]::-moz-range-track {
   height: 2px;
   cursor: pointer;
   border: none;
-  background: #e6e6e6;
+  background: #e0e0e0;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;
@@ -134,7 +134,7 @@ input[type=range]::-ms-track {
   height: 2px;
   cursor: pointer;
   border: none;
-  background: #e6e6e6;
+  background: #e0e0e0;
   -moz-box-shadow: none;
   -webkit-box-shadow: none;
   box-shadow: none;

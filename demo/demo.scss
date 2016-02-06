@@ -3,7 +3,7 @@
 @import 'compass';
 @import 'compass/css3';
 
-$primary-color: darken(white, 10%);
+$primary-color: darken(white, 12%);
 $primary-color--accent: white;
 
 %display-flex {
@@ -83,7 +83,7 @@ html, body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, 250%);
+  transform: translate(-50%, 335%);
   color: #03A9F4;
   font-size: 32px;
   font-weight: 300;
