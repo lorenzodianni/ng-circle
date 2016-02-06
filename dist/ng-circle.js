@@ -15,32 +15,26 @@ function ngCircle() {
     bindToController: true,
     replace: true,
     link: CircleLink,
-    template: '\n    <div class="ng-circle" ng-style="vm.style(\'circle\')">\n      <div class="ng-circle__half">\n        <div class="ng-circle__half-progress is-left" style="\n          background: {{vm.style(\'progress\').color}};\n\t\t\t\t\tborder-radius: {{vm.style(\'progress\').radius.isLeft}};\n          {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getLeftRange()}}deg)">\n        </div>\n      </div>\n\n      <div class="ng-circle__half">\n        <div class="ng-circle__half-progress is-right" style="\n          background: {{vm.style(\'progress\').color}};\n\t\t\t\t\tborder-radius: {{vm.style(\'progress\').radius.isRight}};\n          {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getRightRange()}}deg)">\n        </div>\n      </div>\n\n      <div ng-if="!vm.pie" class="ng-circle__dot" style="\n        width: {{vm.style(\'dot\').width}};\n        height: {{vm.style(\'dot\').height}};\n        background: {{vm.style(\'dot\').color}};\n        {{vm.setSupportClient(\'transform\')}}: rotate({{vm.getDotRange()}}deg) translate(-50%, 0);\n        {{vm.setSupportClient(\'transform-origin\')}}: 0 {{vm.style(\'dot\').origin}};">\n      </div>\n      <div ng-if="!vm.pie" class="ng-circle__dot" style="\n        width: {{vm.style(\'dot\').width}};\n        height: {{vm.style(\'dot\').height}};\n        background: {{vm.style(\'dot\').color}};">\n      </div>\n      <div ng-if="!vm.pie" class="ng-circle__mask" ng-style="vm.style(\'mask\')"></div>\n    </div>\n    '
+    template: '\n    <div class="ng-circle" ng-style="vm.get(\'circle\')">\n      <div class="ng-circle__half">\n        <div class="ng-circle__half-progress is-left" style="\n          background: {{vm.get(\'progress\').color}};\n\t\t\t\t\tborder-radius: {{vm.get(\'progress\').radius.leftHalf}};\n          {{vm.setSupportClient(\'transform\')}}: rotate({{vm.get(\'progress\').range.leftHalf}})">\n        </div>\n      </div>\n\n      <div class="ng-circle__half">\n        <div class="ng-circle__half-progress is-right" style="\n          background: {{vm.get(\'progress\').color}};\n\t\t\t\t\tborder-radius: {{vm.get(\'progress\').radius.rightHalf}};\n          {{vm.setSupportClient(\'transform\')}}: rotate({{vm.get(\'progress\').range.rightHalf}})">\n        </div>\n      </div>\n\n      <div ng-if="!vm.pie" class="ng-circle__dot" style="\n        width: {{vm.get(\'dot\').width}};\n        height: {{vm.get(\'dot\').height}};\n        background: {{vm.get(\'dot\').color}};\n        {{vm.setSupportClient(\'transform\')}}: rotate({{vm.get(\'dot\').range}}) translate(-50%, 0);\n        {{vm.setSupportClient(\'transform-origin\')}}: 0 {{vm.get(\'dot\').origin}};">\n      </div>\n      <div ng-if="!vm.pie" class="ng-circle__dot" style="\n        width: {{vm.get(\'dot\').width}};\n        height: {{vm.get(\'dot\').height}};\n        background: {{vm.get(\'dot\').color}};">\n      </div>\n      <div ng-if="!vm.pie" class="ng-circle__mask" ng-style="vm.get(\'mask\')"></div>\n    </div>\n    '
   };
 
   function CircleLink(scope, elem, attr, ctrl) {
     scope.$watch(function () {
       return parseInt(ctrl.range);
     }, function (newVal, oldVal) {
-      return newVal ? ctrl.formatRange(newVal) : null;
-    }, true);
+      return newVal ? ctrl.setRange(newVal) : null;
+    });
   }
 
   function CircleCtrl() {
     var vm = this;
-    var leftRange = null;
-    var rightRange = null;
-    var dotRange = null;
 
     vm.size = parseInt(vm.size);
     vm.range = parseInt(vm.range);
     vm.rangeSize = parseInt(vm.rangeSize);
 
-    vm.style = style;
-    vm.formatRange = formatRange;
-    vm.getLeftRange = getLeftRange;
-    vm.getRightRange = getRightRange;
-    vm.getDotRange = getDotRange;
+    vm.get = get;
+    vm.setRange = setRange;
     vm.setSupportClient = setSupportClient;
 
     vm.styles = {
@@ -57,55 +51,38 @@ function ngCircle() {
         width: (vm.rangeSize || vm.size / 10) + 'px',
         height: (vm.rangeSize || vm.size / 10) + 'px',
         color: vm.color,
-        origin: vm.size / 2 + 'px'
+        origin: vm.size / 2 + 'px',
+        range: 0
       },
       progress: {
         color: vm.color,
+        range: {
+          leftHalf: 0,
+          rightHalf: 0
+        },
         radius: {
-          isLeft: vm.size + 'px  0 0 ' + vm.size + 'px',
-          isRight: '0 ' + vm.size + 'px ' + vm.size + 'px 0'
+          leftHalf: vm.size + 'px  0 0 ' + vm.size + 'px',
+          rightHalf: '0 ' + vm.size + 'px ' + vm.size + 'px 0'
         }
       }
     };
 
-    formatRange(vm.range);
+    // On init
+    setRange(vm.range);
 
-    function style(element) {
-      return vm.styles[element];
-    }
+    ///////////////////
 
-    function setLeftRange(range) {
-      return range > -180 ? leftRange = -180 : leftRange = -360 - range;
-    }
-
-    function setRightRange(range) {
-      return range < -180 ? rightRange = 0 : rightRange = -180 - range;
-    }
-
-    function setDotRange(range) {
-      range = Math.abs(range);
-      dotRange = range;
-    }
-
-    function getLeftRange() {
-      return leftRange;
-    }
-
-    function getRightRange() {
-      return rightRange;
-    }
-
-    function getDotRange() {
-      return dotRange;
-    }
-
-    function formatRange(range) {
+    function setRange(range) {
       range = 360 * range / 100;
       range = parseInt('-' + range);
 
-      setLeftRange(range);
-      setRightRange(range);
-      setDotRange(range);
+      _setLeftRange(range);
+      _setRightRange(range);
+      _setDotRange(range);
+    }
+
+    function get(element) {
+      return vm.styles[element];
     }
 
     function setSupportClient(prop) {
@@ -121,6 +98,19 @@ function ngCircle() {
       } else if ('transform' in style) {
         return prop;
       }
+    }
+
+    function _setLeftRange(range) {
+      vm.styles.progress.range.leftHalf = range > -180 ? -180 + 'deg' : -360 - range + 'deg';
+    }
+
+    function _setRightRange(range) {
+      vm.styles.progress.range.rightHalf = range < -180 ? 0 + 'deg' : -180 - range + 'deg';
+    }
+
+    function _setDotRange(range) {
+      range = Math.abs(range);
+      vm.styles.dot.range = range + 'deg';
     }
   }
 }
