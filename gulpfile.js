@@ -37,3 +37,25 @@ gulp.task('watch', function() {
 });
 
 gulp.task('default', ['scripts', 'styles', 'watch']);
+
+gulp.task('styles:demo', function () {
+  return gulp.src('./demo/demo.scss')
+    .pipe(compass({
+      //config_file: './config.rb',
+      css: './demo/css',
+      sass: './demo',
+      comments: true,
+      sourcemap: true
+    }))
+    .pipe(gulp.dest('./demo/css'))
+    .pipe(cssmin())
+    .pipe(rename({ extname: '.min.css'}))
+    .pipe(gulp.dest('./demo/css'));
+});
+
+gulp.task('watch:demo', function() {
+  //gulp.watch('./demo/demo.js', ['scripts']);
+  gulp.watch('./demo/demo.scss', ['styles:demo']);
+});
+
+gulp.task('demo', ['styles:demo', 'watch:demo']);
