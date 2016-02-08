@@ -1,6 +1,6 @@
 # ngCircle
 
-Create circle rating as fast as you can! <a href="http://codepen.io/lorenzodianni/pen/ZQmKQb" target="_blank">Demo Page</a>
+Create circle rating as fast as you can! <a href="http://codepen.io/lorenzodianni/full/ZQmKQb/" target="_blank">Demo Page</a>
 ```sh
 $ npm install ng-circle --save
 ```
