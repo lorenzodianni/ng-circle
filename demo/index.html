@@ -17,10 +17,12 @@
     <ng-circle
       class="myClass"
       ng-circle-size="120px"
-      ng-circle-range="{{main.rangeValue}}"
+      ng-circle-value="{{main.rangeValue}}"
       ng-circle-color="#03A9F4"
       ng-circle-stroke="4px"
-      ng-circle-fill="#000">
+      ng-circle-fill="[0,0,0]"
+      ng-circle-max-value="100"
+      ng-circle-pie="false">
     </ng-circle>
 
     <input type="range" ng-model="main.rangeValue" min="0" max="100">
