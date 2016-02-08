@@ -14,13 +14,13 @@ angular.module('MyApp', ['ngCircle'])
 Insert inside your .html file:
 ```html
 <ng-circle
-  ng-circle-size="120px"          <!--  Circle size    |   Pixel       -->
-  ng-circle-value="90%"           <!--  Value to show  |   Int/string  -->
-  ng-circle-color="[0,0,0]"       <!--  Circle color   |   HEX or RGB  -->
-  ng-circle-stroke="4px"          <!--  Stroke size    |   Pixel       -->
-  ng-circle-fill="#FFF"           <!--  Fill color     |   HEX or RGB  -->
-  ng-circle-max-value="100%"      <!--  Max value      |   Int/string  -->
-  ng-circle-pie="false">          <!--  Pie mode       |   Int/string  -->
+  ng-circle-size="120px"
+  ng-circle-value="90%"
+  ng-circle-color="[0,0,0]"
+  ng-circle-stroke="4px"
+  ng-circle-fill="#FFF"
+  ng-circle-max-value="100%"
+  ng-circle-pie="false">
 </ng-circle>
 ```
 
