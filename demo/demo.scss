@@ -3,8 +3,12 @@
 @import 'compass';
 @import 'compass/css3';
 
-$primary-color: darken(white, 12%);
-$primary-color--accent: white;
+$primary-color: #014362;
+$primary-color--accent: #0287C3;
+
+$range-height: 1px;
+$range-thumb: 20px;
+
 
 %display-flex {
   @include flexbox((
@@ -76,7 +80,7 @@ html, body {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -150%);
+  transform: translate(-50%, -100%);
 }
 
 .range-value {
@@ -116,7 +120,7 @@ html, body {
 
 input[type=range] {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   width: 90%;
   max-width: 320px;
@@ -126,45 +130,42 @@ input[type=range] {
   @include appearance(none);
   &:focus {
     outline: none;
-    // &::-webkit-slider-thumb {
-    //   width: 28px;
-    //   height: 28px;
-    // }
-    // &::-moz-range-thumb {
-    //   width: 28px;
-    //   height: 28px;
-    // }
-    // &::-ms-thumb {
-    //   width: 28px;
-    //   height: 28px;
-    // }
+    &::-webkit-slider-thumb {
+      background-color: $primary-color--accent;
+    }
+    &::-moz-range-thumb {
+      background-color: $primary-color--accent;
+    }
+    &::-ms-thumb {
+      background-color: $primary-color--accent;
+    }
   }
   &::-webkit-slider {
     &-runnable-track {
-      @include input-range--track(2px, $primary-color, 2px);
+      @include input-range--track($range-height, $primary-color, $range-height);
     }
     &-thumb {
-      @include input-range--thumb(20px, 20px, $primary-color--accent);
+      @include input-range--thumb($range-thumb, $range-thumb, $primary-color);
     }
   }
   &::-moz-range {
     &-track {
-      @include input-range--track(2px, $primary-color, 2px);
+      @include input-range--track($range-height, $primary-color, $range-height);
     }
     &-thumb {
-      @include input-range--thumb(20px, 20px, $primary-color--accent);
+      @include input-range--thumb($range-thumb, $range-thumb, $primary-color);
     }
   }
 
   &::-ms {
     &-track {
-      @include input-range--track(2px, $primary-color, 2px);
+      @include input-range--track($range-height, $primary-color, $range-height);
     }
     &-thumb {
-      @include input-range--thumb(20px, 20px, $primary-color--accent);
+      @include input-range--thumb($range-thumb, $range-thumb, $primary-color);
     }
     &-fill-lower, &-fill-upper {
-      background: $primary-color--accent;
+      background: $primary-color;
       border: none;
       @include border-radius(50%);
       @include box-shadow(none);
