@@ -76,16 +76,6 @@ html, body {
   font-weight: 400;
 }
 
-.range-value {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, 335%);
-  color: #03A9F4;
-  font-size: 32px;
-  font-weight: 300;
-}
-
 @mixin input-range--track($height, $color, $radius) {
   width: 100%;
   height: $height;
