@@ -1,6 +1,5 @@
 .ng-circle {
   position: relative;
-  overflow: hidden;
 }
 .ng-circle__fill {
   position: absolute;
