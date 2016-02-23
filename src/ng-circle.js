@@ -130,15 +130,17 @@ function ngCircle(){
 
     function setSupportClient(prop) {
       let style = document.body.style;
-      if ('WebkitTransform' in style) {
+      let Prop = prop.charAt(0).toUpperCase() + prop.slice(1);
+
+      if ('Webkit'+Prop in style) {
         return '-webkit-' + prop;
-      } else if ('MozTransform' in style) {
+      } else if ('Moz'+Prop in style) {
         return '-moz-' + prop;
-      } else if ('MsTransform' in style) {
+      } else if ('Ms'+Prop in style) {
         return '-ms-' + prop;
-      } else if ('OTransform' in style) {
+      } else if ('O'+Prop in style) {
         return '-o-' + prop;
-      } else if ('transform' in style) {
+      } else {
         return prop;
       }
     }
@@ -146,7 +148,7 @@ function ngCircle(){
     function _setLeftRange(value) {
       if(value < -360) {
         vm.styles.stroke.value.leftHalf = -360 + 'deg';
-        return
+        return;
       }
 
       vm.styles.stroke.value.leftHalf = value > -180 ? -180 + 'deg' : -360 - value + 'deg';
@@ -159,7 +161,7 @@ function ngCircle(){
     function _setDotRange(value) {
       if(value < -360) {
         vm.styles.dot.value = -360 + 'deg';
-        return
+        return;
       }
 
       value = Math.abs(value);

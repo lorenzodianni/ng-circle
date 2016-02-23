@@ -93,15 +93,17 @@ function ngCircle() {
 
     function setSupportClient(prop) {
       var style = document.body.style;
-      if ('WebkitTransform' in style) {
+      var Prop = prop.charAt(0).toUpperCase() + prop.slice(1);
+
+      if ('Webkit' + Prop in style) {
         return '-webkit-' + prop;
-      } else if ('MozTransform' in style) {
+      } else if ('Moz' + Prop in style) {
         return '-moz-' + prop;
-      } else if ('MsTransform' in style) {
+      } else if ('Ms' + Prop in style) {
         return '-ms-' + prop;
-      } else if ('OTransform' in style) {
+      } else if ('O' + Prop in style) {
         return '-o-' + prop;
-      } else if ('transform' in style) {
+      } else {
         return prop;
       }
     }
